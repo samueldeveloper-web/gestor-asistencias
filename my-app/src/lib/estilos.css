@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
+:root {
+	--bs-primary: #3659d9;
+	--bs-primary-rgb: 54, 89, 217;
+	--bs-link-color: #3659d9;
+	--bs-link-hover-color: #2949c5;
+	--bs-body-font-family: 'DM Sans', system-ui, sans-serif;
+	--bs-body-bg: #f5f7fb;
+	--bs-body-color: #202b3c;
+	--linea: #e9edf3;
+	--sombra: 0 8px 28px rgba(28, 45, 84, 0.06);
+}
+
+body { background: var(--bs-body-bg); }
+h1, h2, h3, h4, h5, .navbar-brand { font-family: 'Manrope', sans-serif; letter-spacing: -0.02em; }
+
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+.app-contenido { flex: 1; min-width: 0; }
+.barra-lateral { width: 250px; flex: none; background: #fff; border-right: 1px solid var(--linea); padding: 1.25rem 0.75rem; position: sticky; top: 57px; height: calc(100vh - 57px); overflow-y: auto; }
+.menu-lateral .nav-link { color: #5f6b7e; font-weight: 600; font-size: 0.92rem; border-radius: 10px; padding: 0.55rem 0.8rem; }
+.menu-lateral .nav-link:hover { background: #f1f4fb; color: #3659d9; }
+.menu-lateral .nav-link.active { background: #eef2ff; color: #3659d9; }
+.menu-lateral .nav-link i { font-size: 1.05rem; }
+.page-item.active .page-link, .dt-paging .page-item.active .page-link { background-color: #3659d9; border-color: #3659d9; }
+.page-link { color: #3659d9; }
+
+.btn-primary { --bs-btn-bg: #3659d9; --bs-btn-border-color: #3659d9; --bs-btn-hover-bg: #2949c5; --bs-btn-hover-border-color: #2949c5; --bs-btn-active-bg: #233fae; }
+.btn-outline-primary { --bs-btn-color: #3659d9; --bs-btn-border-color: #c9d3f7; --bs-btn-hover-bg: #3659d9; --bs-btn-hover-border-color: #3659d9; }
+.text-primary { color: #3659d9 !important; }
+.bg-primary-subtle { background-color: #eef2ff !important; }
+
+.encabezado { background: #fff; border-bottom: 1px solid var(--linea); }
+.encabezado .marca { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; background: #3659d9; color: #fff; }
+.encabezado .avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: #e8edff; color: #3659d9; font-weight: 800; font-size: 0.8rem; }
+
+.pie-pagina { background: #fff; border-top: 1px solid var(--linea); color: #5f6b7e; }
+
+.card { border-radius: 14px; box-shadow: var(--sombra); }
+.tarjeta-indicador { transition: transform 0.15s; }
+.tarjeta-indicador:hover { transform: translateY(-2px); }
+
+.modal.d-block { background: transparent; }
+.modal-content { border: 0; border-radius: 16px; }
+
+/* DataTables */
+.tabla-datos table.dataTable thead th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b778a; }
+.tabla-datos .dt-search input { min-width: 220px; }
+.tabla-datos .dt-container { font-size: 0.92rem; }
+
+.login-fondo { background: linear-gradient(135deg, #eef2ff 0%, #f5f7fb 55%, #e8f6f0 100%); }

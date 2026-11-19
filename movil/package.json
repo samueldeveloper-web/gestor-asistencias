@@ -1,0 +1,20 @@
+{
+	"name": "aula-presente-movil",
+	"private": true,
+	"version": "1.0.0",
+	"description": "Versi\u00f3n m\u00f3vil (APK Android) del gestor de asistencia, empaquetada con Capacitor.",
+	"scripts": {
+		"web": "npm --prefix ../my-app run build:movil",
+		"agregar-android": "cap add android && node habilitar-http.cjs",
+		"sincronizar": "npm run web && cap sync android",
+		"abrir": "cap open android",
+		"apk": "npm run sincronizar && cd android && gradlew.bat assembleDebug"
+	},
+	"dependencies": {
+		"@capacitor/android": "7.6.10",
+		"@capacitor/core": "7.6.10"
+	},
+	"devDependencies": {
+		"@capacitor/cli": "7.6.10"
+	}
+}

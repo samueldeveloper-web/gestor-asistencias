@@ -1,0 +1,20 @@
+# Dependencias y entornos
+node_modules/
+myvenv/
+venv/
+__pycache__/
+*.pyc
+
+# Credenciales (nunca se suben)
+.env
+.env.*
+!.env.example
+
+# Archivos pesados o generados
+*.zip
+*.apk
+/my-app/.svelte-kit/
+/my-app/build/
+/movil/android/app/build/
+/movil/android/.gradle/
+/movil/node_modules/

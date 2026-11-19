@@ -1,0 +1,53 @@
+from fastapi import APIRouter, Depends, Query, Request
+
+from app.core.security import usuario_actual
+from app.models.excusa import Excusa, ExcusaActualizar
+from app.models.comunes import CambioEstado, RevisionExcusa
+from app.repositories.excusa_repo import ExcusaRepository
+
+router = APIRouter(prefix="/excusas", tags=["Excusas"], dependencies=[Depends(usuario_actual)])
+repo = ExcusaRepository()
+
+@router.put("/{id_registro}/revisar")
+def revisar_excusa(id_registro: int, datos: RevisionExcusa):
+    """Docente/Administrador aprueba o rechaza. Aprobada => la asistencia queda 'excusado'."""
+    fila = repo.revisar(id_registro, datos.aprobada, datos.observacion)
+    return {"mensaje": "Excusa " + ("aprobada" if datos.aprobada else "rechazada"), "data": fila}
+
+
+@router.get("/")
+def listar_excusa(request: Request, incluir_inactivos: bool = Query(False)):
+    """Lista los registros activos. Acepta filtros por columna: ?columna=valor"""
+    filtros = {k: v for k, v in request.query_params.items() if k != "incluir_inactivos"}
+    return repo.obtener_todos(solo_activos=not incluir_inactivos, filtros=filtros)
+
+
+@router.get("/{id_registro}")
+def obtener_excusa(id_registro: int):
+    return repo.obtener_por_id(id_registro)
+
+
+@router.post("/", status_code=201)
+def crear_excusa(datos: Excusa):
+    nuevo = repo.crear(datos.model_dump(exclude_unset=True))
+    return {"mensaje": "Excusa registrado exitosamente", "id": nuevo[repo.esquema()["pk"]], "data": nuevo}
+
+
+@router.put("/{id_registro}")
+def actualizar_excusa(id_registro: int, datos: ExcusaActualizar):
+    actualizado = repo.actualizar(id_registro, datos.model_dump(exclude_unset=True))
+    return {"mensaje": "Excusa actualizado correctamente", "data": actualizado}
+
+
+@router.delete("/{id_registro}")
+def eliminar_excusa(id_registro: int):
+    """Borrado lógico: cambia el estado a inactivo, no borra la fila."""
+    repo.eliminar(id_registro)
+    return {"mensaje": "Excusa desactivado correctamente"}
+
+
+@router.patch("/{id_registro}/estado")
+def cambiar_estado_excusa(id_registro: int, datos: CambioEstado):
+    """Activa o desactiva el registro (reactivar lo eliminado)."""
+    fila = repo.cambiar_estado(id_registro, datos.esta_activo)
+    return {"mensaje": "Estado actualizado", "data": fila}
