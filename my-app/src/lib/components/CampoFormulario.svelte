@@ -1,4 +1,5 @@
 <script>
+	import ListaEstudiantes from './ListaEstudiantes.svelte';
 	/**
 	 * Un campo de formulario. Tipos: texto, email, clave, numero, fecha, hora, select, textarea, casilla.
 	 * Los select reciben opciones [{ valor, etiqueta }] para que el usuario nunca escriba IDs.
@@ -17,7 +18,9 @@
 	<label class="form-label fw-semibold small" for={id}>
 		{campo.etiqueta}{#if campo.requerido}<span class="text-danger"> *</span>{/if}
 	</label>
-	{#if campo.tipo === 'select'}
+	{#if campo.tipo === 'estudiantes'}
+		<ListaEstudiantes bind:valor opciones={campo.opciones ?? []} parentescos={campo.parentescos ?? []} {deshabilitado} />
+	{:else if campo.tipo === 'select'}
 		<select {id} class="form-select" bind:value={valor} required={campo.requerido} disabled={deshabilitado}>
 			<option value={null} disabled={campo.requerido}>{campo.marcador ?? 'Selecciona una opción'}</option>
 			{#each campo.opciones ?? [] as opcion (opcion.valor)}
