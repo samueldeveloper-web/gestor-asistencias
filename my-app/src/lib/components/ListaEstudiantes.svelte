@@ -31,6 +31,7 @@
 				<li class="list-group-item d-flex flex-wrap align-items-center gap-2">
 					<span class="fw-semibold flex-grow-1"><i class="bi bi-person me-1 text-primary"></i>{nombre(fila.estudianteid)}</span>
 					<select class="form-select form-select-sm w-auto" aria-label="Parentesco con {nombre(fila.estudianteid)}" bind:value={fila.parentesco} disabled={deshabilitado} required>
+						{#if fila.parentesco && !parentescos.includes(fila.parentesco)}<option value={fila.parentesco}>{fila.parentesco}</option>{/if}
 						{#each parentescos as p (p)}<option value={p}>{p}</option>{/each}
 					</select>
 					<div class="form-check form-switch mb-0">
