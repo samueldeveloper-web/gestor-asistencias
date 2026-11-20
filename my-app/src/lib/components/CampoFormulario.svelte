@@ -19,7 +19,7 @@
 		{campo.etiqueta}{#if campo.requerido}<span class="text-danger"> *</span>{/if}
 	</label>
 	{#if campo.tipo === 'estudiantes'}
-		<ListaEstudiantes bind:valor opciones={campo.opciones ?? []} parentescos={campo.parentescos ?? []} {deshabilitado} />
+		<ListaEstudiantes bind:valor opciones={campo.opciones ?? []} parentescos={campo.parentescos ?? []} tienePrincipal={campo.tienePrincipal} {deshabilitado} />
 	{:else if campo.tipo === 'select'}
 		<select {id} class="form-select" bind:value={valor} required={campo.requerido} disabled={deshabilitado}>
 			<option value={null} disabled={campo.requerido}>{campo.marcador ?? 'Selecciona una opción'}</option>

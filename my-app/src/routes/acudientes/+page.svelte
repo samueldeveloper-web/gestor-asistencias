@@ -1,7 +1,7 @@
 <script>
 	import PaginaCrud from '$lib/components/PaginaCrud.svelte';
 	import { crearAcudiente, actualizarAcudiente, eliminarAcudiente } from '$lib/api/acudientesApi.js';
-	import { crearVinculo, actualizarVinculo, eliminarVinculo, ID_VINCULO } from '$lib/api/estudianteAcudienteApi.js';
+	import { crearVinculo, actualizarVinculo, eliminarVinculo, cambiarEstadoVinculo, filtrarVinculos, ID_VINCULO } from '$lib/api/estudianteAcudienteApi.js';
 	import { cargarCatalogos } from '$lib/catalogos.js';
 	import { permisosDe } from '$lib/sesion.js';
 	import { nombreCompleto, soloActivos, escaparHtml, opciones } from '$lib/utilidades.js';
@@ -55,7 +55,23 @@
 			if (previo && previo.parentesco === datos.parentesco && previo.contacto_principal === datos.contacto_principal) continue;
 			if (datos.contacto_principal) await quitarPrincipalAnterior(h.estudianteid, previo?.[ID_VINCULO] ?? null);
 			if (previo) await actualizarVinculo(previo, datos);
-			else await crearVinculo(datos);
+			else await crearOReactivar(datos);
+		}
+		// Comprobación: se vuelve a leer de la API para confirmar que quedaron todos los estudiantes.
+		const guardados = await filtrarVinculos({ acudienteid: acudienteId });
+		const faltan = hijos.filter((h) => !guardados.some((g) => g.estudianteid === h.estudianteid));
+		if (faltan.length) throw new Error(`No se pudieron guardar ${faltan.length} estudiante(s) a cargo. Revisa la API e inténtalo de nuevo.`);
+	}
+
+	/** Si el vínculo ya existió y se había quitado (inactivo), se reactiva en lugar de crear uno repetido. */
+	async function crearOReactivar(datos) {
+		const anteriores = await filtrarVinculos({ estudianteid: datos.estudianteid, acudienteid: datos.acudienteid, incluir_inactivos: true });
+		const inactivo = anteriores.find((v) => v.esta_activo === false);
+		if (inactivo) {
+			await cambiarEstadoVinculo(inactivo, true);
+			await actualizarVinculo(inactivo, datos);
+		} else {
+			await crearVinculo(datos);
 		}
 	}
 
