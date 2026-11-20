@@ -1,0 +1,12 @@
+// Pega cada medida en Power BI: Modelado -> Nueva medida (sobre la tabla vw_tablero_asistencia)
+Registros = COUNTROWS(vw_tablero_asistencia)
+Fallas = SUM(vw_tablero_asistencia[es_falla])
+% Asistencia = DIVIDE(SUM(vw_tablero_asistencia[asistio]), [Registros])
+Estudiantes con fallas = CALCULATE(DISTINCTCOUNT(vw_tablero_asistencia[estudiante]), vw_tablero_asistencia[es_falla] = 1)
+
+// Sobre la tabla vw_tablero_notificaciones
+Notificaciones enviadas = SUM(vw_tablero_notificaciones[enviada_correo])
+% Notificaciones leidas = DIVIDE(SUM(vw_tablero_notificaciones[leida]), COUNTROWS(vw_tablero_notificaciones))
+
+// Sobre la tabla vw_tablero_excusas
+Excusas aprobadas = CALCULATE(COUNTROWS(vw_tablero_excusas), vw_tablero_excusas[estado_revision] = "aprobada")

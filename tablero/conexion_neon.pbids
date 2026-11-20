@@ -1,0 +1,15 @@
+{
+  "version": "0.1",
+  "connections": [
+    {
+      "details": {
+        "protocol": "postgresql",
+        "address": {
+          "server": "ep-wispy-cloud-aviy1uug-pooler.c-11.us-east-1.aws.neon.tech",
+          "database": "neondb"
+        }
+      },
+      "mode": "Import"
+    }
+  ]
+}

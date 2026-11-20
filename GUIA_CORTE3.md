@@ -78,9 +78,9 @@ Excusas aprobadas = CALCULATE(COUNTROWS(vw_tablero_excusas), vw_tablero_excusas[
 **Necesitas** Node.js y **Android Studio** (trae el SDK y Java). Ábrelo una vez para que descargue el SDK.
 
 ```powershell
-# 1. URL de la API para el celular: la IP de tu PC en la WiFi (ver con: ipconfig)
+# 1. URL de la API para el celular (ya trae la API de Render)
 cd my-app
-copy .env.movil.example .env.movil      # edita VITE_API_BASE_URL=http://TU_IP:8000
+copy env.movil.ejemplo .env.movil      # VITE_API_BASE_URL=https://gestor-asistencias-ccn4.onrender.com
 npm install
 
 # 2. Proyecto Android (solo la primera vez)
@@ -106,7 +106,8 @@ El APK queda en **`movil\android\app\build\outputs\apk\debug\app-debug.apk`** (e
 **Cada vez que cambies la web:** `npm run sincronizar` (o `npm run apk`) dentro de `movil`.
 
 Notas:
-- El celular y el PC deben estar en la misma WiFi, y la API corriendo con `--host 0.0.0.0`. Si Windows pregunta por el firewall, permite el acceso a Python.
-- Si la API ya está en la nube, pon esa URL en `.env.movil` y funciona desde cualquier red.
+- Con la API de Render el APK funciona desde cualquier red. La primera petición puede tardar unos 50 segundos si Render tenía la API dormida (plan gratis).
+- Para probar contra la API de tu PC, pon `http://TU_IP:8000` en `.env.movil` (ver la IP con `ipconfig`), corre la API con `--host 0.0.0.0` y usa la misma WiFi.
+- En Render, la variable `CORS_ORIGENES` no necesita cambios para el APK: la API ya acepta el origen `http://localhost` del APK.
 - En el APK los reportes se reciben con **Enviar por correo** (el celular no descarga archivos desde la app).
 - La app carga Bootstrap y DataTables por CDN, así que el celular necesita internet.

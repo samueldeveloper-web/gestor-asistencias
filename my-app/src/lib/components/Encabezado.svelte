@@ -1,5 +1,6 @@
 <script>
 	/** Barra superior: marca, cuenta del usuario y botón del menú en pantallas pequeñas. */
+	import { page } from '$app/state';
 	import { cerrarSesion } from '$lib/sesion.js';
 	import MenuLateral from './MenuLateral.svelte';
 
@@ -36,7 +37,7 @@
 					<i class="bi bi-list fs-5"></i>
 				</button>
 			</div>
-		{:else}
+		{:else if page.url.pathname !== '/login'}
 			<a href="/login" class="btn btn-primary btn-sm">Iniciar sesión</a>
 		{/if}
 	</div>

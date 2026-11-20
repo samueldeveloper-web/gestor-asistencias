@@ -29,4 +29,6 @@ class Config:
     SMTP_USER = os.getenv("SMTP_USER", "")
     SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
     SMTP_REMITENTE = os.getenv("SMTP_REMITENTE", "") or SMTP_USER
+    # Brevo (API HTTPS): úsalo en Render gratis, que bloquea los puertos SMTP
+    BREVO_API_KEY = os.getenv("BREVO_API_KEY", "")
     NOMBRE_INSTITUCION = os.getenv("NOMBRE_INSTITUCION", "Aula Presente")

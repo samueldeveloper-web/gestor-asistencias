@@ -1,0 +1,10 @@
+{
+  "name": "Aula Presente",
+  "dataColors": ["#3659D9", "#DC3545", "#198754", "#FD7E14", "#0DCAF0", "#6F42C1", "#20C997", "#6C757D"],
+  "background": "#FFFFFF",
+  "foreground": "#202B3C",
+  "tableAccent": "#3659D9",
+  "good": "#198754",
+  "neutral": "#FD7E14",
+  "bad": "#DC3545"
+}
