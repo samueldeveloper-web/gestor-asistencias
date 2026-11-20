@@ -4,17 +4,17 @@
 	 * valor: [{ estudianteid, parentesco, contacto_principal }]
 	 * opciones: [{ valor, etiqueta }] con los estudiantes disponibles (por nombre, nunca por ID).
 	 */
-	let { valor = $bindable([]), opciones = [], parentescos = [], deshabilitado = false } = $props();
-
-	let elegido = $state(null);
+	let { valor = $bindable([]), opciones = [], parentescos = [], deshabilitado = false, tienePrincipal = () => false } = $props();
 
 	const disponibles = $derived(opciones.filter((o) => !(valor ?? []).some((f) => f.estudianteid === o.valor)));
 	const nombre = (id) => opciones.find((o) => o.valor === id)?.etiqueta ?? 'Estudiante';
 
-	function agregar() {
-		if (!elegido) return;
-		valor = [...(valor ?? []), { estudianteid: elegido, parentesco: parentescos[0] ?? '', contacto_principal: true }];
-		elegido = null;
+	function elegirYAgregar(evento) {
+		const select = evento.currentTarget;
+		const elegido = disponibles.find((o) => String(o.valor) === select.value)?.valor;
+		select.value = '';
+		if (elegido == null) return;
+		valor = [...(valor ?? []), { estudianteid: elegido, parentesco: parentescos[0] ?? '', contacto_principal: !tienePrincipal(elegido) }];
 	}
 
 	function quitar(indice) {
@@ -45,13 +45,9 @@
 			{/each}
 		</ul>
 	{/if}
-	<div class="input-group">
-		<select class="form-select" aria-label="Estudiante para agregar" bind:value={elegido} disabled={deshabilitado || disponibles.length === 0}>
-			<option value={null}>{disponibles.length ? 'Selecciona un estudiante' : 'No hay más estudiantes'}</option>
-			{#each disponibles as o (o.valor)}<option value={o.valor}>{o.etiqueta}</option>{/each}
-		</select>
-		<button type="button" class="btn btn-outline-primary" onclick={agregar} disabled={!elegido}>
-			<i class="bi bi-plus-lg me-1"></i>Agregar
-		</button>
-	</div>
+	<!-- Al elegir un estudiante se agrega de inmediato a la lista (no hace falta otro botón). -->
+	<select class="form-select" aria-label="Estudiante para agregar" disabled={deshabilitado || disponibles.length === 0} onchange={elegirYAgregar}>
+		<option value="" selected>{disponibles.length ? '+ Agregar estudiante a cargo…' : 'No hay más estudiantes'}</option>
+		{#each disponibles as o (o.valor)}<option value={String(o.valor)}>{o.etiqueta}</option>{/each}
+	</select>
 </div>
